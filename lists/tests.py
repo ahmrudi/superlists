@@ -2,6 +2,7 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.http import HttpRequest
+from django.template.loader import render_to_string
 
 from lists.views import home_page
 
@@ -20,9 +21,10 @@ class HomePageTest(TestCase):
 		request = HttpRequest()
 		# yang ada di home page
 		response = home_page(request)
-		# dimana halaman tersebut haruslah dimulai dengan html
-		self.assertTrue(response.content.startswith(b'<html>'))
+		expected_html = render_to_string('home.html')
+		self.assertEqual(response.content.decode(), expected_html)
+		self.assertTrue(response.content.strip().startswith(b'<html>'))
 		# dengan judul To-Do lists
 		self.assertIn(b'<title>To-Do lists</title>', response.content)
 		# dan diakhiri dengan kode html pula
-		self.assertTrue(response.content.endswith(b'</html>'))
+		self.assertTrue(response.content.strip().endswith(b'</html>'))
