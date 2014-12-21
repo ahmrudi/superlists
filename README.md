@@ -1,5 +1,13 @@
+Useful TDD Concepts
 
-…or create a new repository on the command line
+User Story
+	A description of how the application will work from the point of view ot the user.
+	Used to structure a functional test.
+
+Expected failure
+	When a test fails in the way that we expected it to.
+
+Git Documentation
 
 touch README.md
 git init
@@ -8,11 +16,7 @@ git commit -m "first commit"
 git remote add origin https://github.com/ahmrudi/superlists.git
 git push -u origin master
 
-…or push an existing repository from the command line
+======================
 
 git remote add origin https://github.com/ahmrudi/superlists.git
 git push -u origin master
-
-…or import code from another repository
-
-You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
