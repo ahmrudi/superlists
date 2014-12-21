@@ -38,17 +38,6 @@ class NewItemTest(TestCase):
 
 class NewListTest(TestCase):
 	
-	def test_saving_a_POST_request(self):
-		request = HttpRequest()
-		request.method = 'POST'
-		request.POST['item_text'] = 'A new list item'
-		
-		response = home_page(request)
-
-		self.assertEqual(Item.objects.count(), 1)
-		new_item = Item.objects.first()
-		self.assertEqual(new_item.text, 'A new list item')
-
 	def test_redirects_after_POST(self):
 		response = self.client.post(
 			'/lists/new',
@@ -64,6 +53,11 @@ class ListViewTest(TestCase):
 		correct_list = List.objects.create()
 		response = self.client.get('/lists/%d/' %(correct_list.id,))
 		self.assertEqual(response.context['list'], correct_list)
+
+	def test_uses_list_template(self):
+		list_ = List.objects.create()
+		response = self.client.get('/lists/%d/' %(list_.id,))
+		self.assertTemplateUsed(response, 'list.html')
 	
 	def test_displays_only_items_for_that_list(self):
 		correct_list = List.objects.create()
