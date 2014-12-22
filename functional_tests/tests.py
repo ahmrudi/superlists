@@ -1,9 +1,9 @@
 # file functional_tests.py
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -21,11 +21,6 @@ class NewVisitorTest(LiveServerTestCase):
 		# Edith has heard about a cool new online to-do app.
 		# She goes to check out its homepage
 		self.browser.get(self.live_server_url)
-
-		# She notices the page title and header mention to-do lists
-		self.assertIn('To-Do lists', self.browser.title)
-		header_text = self.browser.find_element_by_tag_name('h1').text
-		self.assertIn('Your To-Do list', header_text)
 		
 		# She is invited to enter a to-do item straight away
 		inputbox = self.browser.find_element_by_id('id_new_item')
