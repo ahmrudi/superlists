@@ -1,0 +1,22 @@
+{% extends "notes/base.html" %}
+
+{% block container %}
+<h1>NOTES</h1>
+<form method="POST" action="/login/">
+	<div>
+		<label for="username">Username</label>
+		<input type="text" name="username" id="username" />
+	</div>
+	<div>
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" />
+	</div>
+	<div>
+		<a href="/sign-up/">click here for registration</a>
+	</div>
+	<div>
+		{% csrf_token %}
+		<input type="submit" value="login" id="login-btn" />
+	</div>
+</form>
+{% endblock %}

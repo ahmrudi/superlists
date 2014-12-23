@@ -2,6 +2,64 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import unittest
+
+class NewNotesTest(StaticLiveServerTestCase):
+	
+	def setUp(self):
+		self.browser = webdriver.Firefox()
+		self.browser.implicitly_wait(3)
+	
+	def tearDown(self):
+		self.browser.quit()
+	
+	def test_can_start_notes(self):
+		# Tono mengunjungi website kemudian pergi ke home page notest
+		notes_url = self.live_server_url + '/notes/'
+		self.browser.get(notes_url)
+		
+		# Tono melihat judul halamannya "Notes"
+		self.assertIn("Notes", self.browser.title)
+		# Dengan tampilan halaman depannya bertuliskan "NOTES"
+		page_title = self.browser.find_element_by_tag_name("h1").text
+		self.assertEqual("NOTES", page_title)
+		
+		# Tono memasukkan username dan password kedalam form login
+		username = self.browser.find_element_by_id("username")
+		password = self.browser.find_element_by_id("password")
+		username.send_keys('tono')
+		password.send_keys('tono-pass')
+		# Tono login
+		login_btn = self.browser.find_element_by_id("login-btn")
+		login_btn.send_keys(Keys.ENTER)
+		
+		# Cek apakah redirect atau tidak
+		self.assertRegex(self.browser.current_url, '/error/')
+		## Bersihkan cache
+		self.browser.quit()
+		self.browser = webdriver.Firefox()
+		# Tono kembali ke halaman notes dengan judul NOTES
+		self.browser.get(notes_url)
+		page_title = self.browser.find_element_by_tag_name("h1").text
+		self.assertEqual("NOTES", page_title)
+		
+		# Tono registrasi untuk mendaftar ke website supaya dapat membuat notes
+		register = self.browser.find_element_by_link_text('click here for registration')
+		register.send_keys(Keys.ENTER)
+		
+		# Tono mengisi form registrasi
+		username = self.browser.find_element_by_id("username")
+		username.send_keys("tono")
+		email = self.browser.find_element_by_id("email")
+		email.send_keys("tono@tono.com")
+		password = self.browser.find_element_by_id("password")
+		password.send_keys("tono")
+		re_password = self.browser.find_element_by_id("re-password")
+		password.send_keys("tono")
+		signup_btn = self.browser.find_element_by_id("signup-btn")
+		signup_btn.send_keys(Keys.ENTER)
+		
+		self.fail("Finish the test notes!")
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
